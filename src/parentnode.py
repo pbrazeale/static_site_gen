@@ -8,7 +8,14 @@ class ParentNode(HTMLNode):
         if self.tag is None:
             raise ValueError("All parent nodes must have a tag")
         
-        if self.children.value is None:
+        if self.children is None or not self.children:
             raise ValueError("All children nodes must have a value")
         
-        return f"ParentNode({self.tag}, children: {map(lambda child: to_html(child), self.children.value)})"
+        children_html = "".join([child.to_html() for child in self.children])
+
+        if self.props is None:
+            open_tag = self.tag
+        else:
+            open_tag = f'{self.tag}{self.props_to_html()}'
+
+        return f"<{open_tag}>{children_html}</{self.tag}>"
