@@ -16,7 +16,5 @@ class LeafNode(HTMLNode):
         else:
             open_tag = f'{self.tag}{self.props_to_html()}'
         
-        html_string = f'<{open_tag}>{self.value}</{self.tag}>'
+        return f'<{open_tag}>{self.value}</{self.tag}>'
         
-        return html_string
-
