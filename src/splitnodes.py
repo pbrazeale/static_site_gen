@@ -13,7 +13,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 
         for i, split in enumerate(splits):
             if i % 2 == 0:
-                new_nodes.append(TextNode(split), TextType.TEXT)
-            new_nodes.append(TextNode(split), text_type)
+                new_nodes.append(TextNode(split, TextType.TEXT))
+            new_nodes.append(TextNode(split, text_type))
     
     return new_nodes
