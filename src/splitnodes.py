@@ -11,9 +11,13 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 
         splits = re.split(pattern, node.text)
 
+        if len(splits) == 1:
+            raise Exception(f'"{delimiter}" missing at the beginning or end of the selection.')
+
         for i, split in enumerate(splits):
             if i % 2 == 0:
                 new_nodes.append(TextNode(split, TextType.TEXT))
-            new_nodes.append(TextNode(split, text_type))
+            else:
+                new_nodes.append(TextNode(split, text_type))
     
     return new_nodes
