@@ -10,7 +10,10 @@ def build_site():
     if os.path.exists("public/"):
         directories = os.listdir("public/")
         for directory in directories:
-            shutil.rmtree(directory)
+            if os.path.isdir(directory):
+                shutil.rmtree(f'public/{directory}')
+            else:
+                os.remove(f'public/{directory}')
 
 
 
