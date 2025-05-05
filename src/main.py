@@ -21,19 +21,9 @@ def build_site():
                 os.remove(subpath)
     # copy all dir/files and subdir/files from "static/" to "public/"
     if os.path.exists(STATIC):
-        pbulic_path = os.path.join(PUBLIC)
-        directories = os.listdir(STATIC)
-        for directory in directories:
-            static_path = os.path.join(STATIC, directory)
-            if os.path.isdir(static_path):
-                dst = os.path.join(PUBLIC, directory)
-                os.makedirs(dst, exist_ok=True)
-                recusive_copy(static_path, dst)
-            else:
-                shutil.copy(static_path, pbulic_path)
-                print(f"Copied {static_path} to {pbulic_path}")
-
-def recusive_copy(static_path, pbulic_path):
+        recursive_copy(STATIC, PUBLIC)
+      
+def recursive_copy(static_path, pbulic_path):
     for name in os.listdir(static_path):
         src = os.path.join(static_path, name)
         dst = os.path.join(pbulic_path, name)
