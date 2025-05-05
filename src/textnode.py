@@ -33,7 +33,7 @@ def text_node_to_html_node(text_node):
     elif text_node.text_type is TextType.CODE:
         return LeafNode("code", text_node.text)
     elif text_node.text_type is TextType.LINK:
-        return LeafNode("a", text_node.text, props={"herf": text_node.url})
+        return LeafNode("a", text_node.text, props={"href": text_node.url})
     elif text_node.text_type is TextType.IMAGE:
         return LeafNode("img", value="", props={"src": text_node.url, "alt": text_node.text} )
 
