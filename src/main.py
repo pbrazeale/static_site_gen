@@ -2,12 +2,15 @@ import os
 import shutil
 
 def main():
+    print("testing")
     build_site()
 
 def build_site():
     # first delete public/...
-    if os.path.exists("../public/"):
-        shutil.rmtree("../public/")
+    if os.path.exists("public/"):
+        directories = os.listdir("public/")
+        for directory in directories:
+            shutil.rmtree(directory)
 
 
 
