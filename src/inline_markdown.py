@@ -3,27 +3,45 @@ from textnode import TextType, TextNode
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
-    pattern = re.escape(delimiter) + r"(.*?)" + re.escape(delimiter)
-
     for node in old_nodes:
-        if node.text_type is not TextType.TEXT:
+        if node.text_type != TextType.TEXT:
             new_nodes.append(node)
             continue
-
-        matches = re.split(pattern, node.text)
-
-        if len(matches) == 1:
-            raise Exception(f'"{delimiter}" missing at the beginning or end of the selection.')
-
-        for i, match in enumerate(matches):
-            if match == "":
+        split_nodes = []
+        sections = node.text.split(delimiter)
+        if len(sections) %2 == 0:
+            raise ValueError("invalid markdown, formatted secltion not closed")
+        for i in range(len(sections)):
+            if sections[i] == "":
                 continue
             if i % 2 == 0:
-                new_nodes.append(TextNode(match, TextType.TEXT))
+                split_nodes.append(TextNode(sections[i], TextType.TEXT))
             else:
-                new_nodes.append(TextNode(match, text_type))
-    
+                split_nodes.append(TextNode(sections[i], text_type))
+        new_nodes.extend(split_nodes)
     return new_nodes
+
+    # pattern = re.escape(delimiter) + r"(.*?)" + re.escape(delimiter)
+
+    # for node in old_nodes:
+    #     if node.text_type != TextType.TEXT:
+    #         new_nodes.append(node)
+    #         continue
+
+    #     matches = re.split(pattern, node.text)
+
+    #     if len(matches) == 1:
+    #         raise Exception(f'"{delimiter}" missing at the beginning or end of the selection.')
+
+    #     for i, match in enumerate(matches):
+    #         if match == "":
+    #             continue
+    #         if i % 2 == 0:
+    #             new_nodes.append(TextNode(match, TextType.TEXT))
+    #         else:
+    #             new_nodes.append(TextNode(match, text_type))
+    
+    # return new_nodes
 
 
 def extract_markdown_images(text):
@@ -108,12 +126,19 @@ def split_nodes_link(old_nodes):
     return new_nodes
 
 def text_to_textnodes(text):
-    return split_nodes_delimiter(
-        split_nodes_delimiter(
-            split_nodes_delimiter(
-                split_nodes_link(
-                    split_nodes_image(text)
-                ), "**", TextType.BOLD
-            ), "_", TextType.ITALIC
-        ), "`", TextType.CODE
-    )
+    nodes = [TextNode(text, TextType.TEXT)]
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    return nodes
+    # return split_nodes_delimiter(
+    #     split_nodes_delimiter(
+    #         split_nodes_delimiter(
+    #             split_nodes_link(
+    #                 split_nodes_image(text)
+    #             ), "**", TextType.BOLD
+    #         ), "_", TextType.ITALIC
+    #     ), "`", TextType.CODE
+    # )
