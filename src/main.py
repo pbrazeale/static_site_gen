@@ -30,7 +30,7 @@ def recursive_copy(static_path, pbulic_path):
 
         if os.path.isdir(src):
             os.makedirs(dst, exist_ok=True)
-            recusive_copy(src, dst)
+            recursive_copy(src, dst)
         else:
             shutil.copy(src, dst)
             print(f"Copied {src} to {dst}")
