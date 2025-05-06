@@ -3,9 +3,9 @@ import shutil
 import sys
 
 from copystatic import build_static
-from gencontent import generate_page, find_content
+from gencontent import generate_page, generate_pages_recursive
 
-dir_path_public = "./public"
+dir_path_public = "./docs"
 dir_path_content = "./content"
 template_path = "./template.html"
 

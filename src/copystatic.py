@@ -1,8 +1,8 @@
 import os
 import shutil
 
-PUBLIC = "public/"
-STATIC = "static/"
+PUBLIC = "./docs"
+STATIC = "./static"
 
 
 def build_static():
