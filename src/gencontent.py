@@ -35,7 +35,7 @@ def extract_title(md):
             return line[2:]
     raise ValueError("no title found")
 
-def find_content(source_dir_path, temp_path, dest_dir_path):
+def generate_pages_recursive(source_dir_path, temp_path, dest_dir_path):
     if not os.path.exists(dest_dir_path):
         os.mkdir(dest_dir_path)
 

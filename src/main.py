@@ -11,7 +11,7 @@ template_path = "./template.html"
 def main():
     build_static()
     print("Generating page...")
-    find_content(dir_path_content, template_path, dir_path_public)
+    generate_pages_recursive(dir_path_content, template_path, dir_path_public)
 
 
 main()
