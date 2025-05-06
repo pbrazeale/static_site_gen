@@ -1,4 +1,5 @@
 import os
+import shutil
 from blocks import markdown_to_html_node
 
 
@@ -33,3 +34,19 @@ def extract_title(md):
         if line.startswith("# "):
             return line[2:]
     raise ValueError("no title found")
+
+def find_content(source_dir_path, temp_path, dest_dir_path):
+    if not os.path.exists(dest_dir_path):
+        os.mkdir(dest_dir_path)
+
+    for filename in os.listdir(source_dir_path):
+        from_path = os.path.join(source_dir_path, filename)
+        dest_path = os.path.join(dest_dir_path, filename)
+        print(f" * {from_path} -> {dest_path}")
+        if os.path.isfile(from_path):
+            name, ext = os.path.splitext(filename)
+            if ext == ".md":
+                dest_path = os.path.join(dest_dir_path, name + ".html")
+                generate_page(from_path, temp_path, dest_path)
+        else:
+            find_content(from_path, temp_path,dest_path)
